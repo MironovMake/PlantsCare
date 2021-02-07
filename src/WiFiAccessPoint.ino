@@ -3,8 +3,8 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 // Replace with your network credentials
-const char* ssid     = "wifi name";
-const char* password = "passowrd";
+const char* ssid     = "Beeline_2G_F22959";
+const char* password = "dUNFcUEP";
 // some time properties
 const long utcOffsetInSeconds = 3600;
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -64,17 +64,18 @@ void loop() {
   timeClient.update();
   var_clock = timeClient.getHours() + 6; // my router give me time less than my by 6
   // turn on led for plants at 14:00
-  if (var_clock > 14 && var_clock < 23 && flag == 0) {
+  if (var_clock > 14 && flag == 0 &&var_clock < 23) {
     analogWrite(ledPin, bright);
-    Serial.println(bright);
+    Serial.println("let me go");
     ledPinState = "on";
     flag = 1;
   } // off led at 23:00
-  else if ((var_clock < 14 || var_clock > 23) && flag == 1) {
-    analogWrite(ledPin, LOW);
+  else if ( var_clock > 23 && flag == 1) {
+    analogWrite(ledPin, LOW); 
     ledPinState = "off";
-    Serial.println(bright);
-    flag == 0;
+    Serial.println(var_clock);
+    Serial.println("how to get uot of here");
+    flag = 0;
   }
 
 
@@ -108,20 +109,20 @@ void loop() {
                 analogWrite(ledPin, dutyCycle);
                 delay(1);
               }
-              Serial.println(bright);
+              Serial.println("am i here?");
             } else if (header.indexOf("GET /6/off") >= 0) {
-              Serial.println(bright);
+              Serial.println("how i get here?");
               ledPinState = "off";
               digitalWrite(ledPin, LOW);
               // if button "brighter" touch
             } else if (header.indexOf("GET /4/on") >= 0) {
-              Serial.println("brighter");
+              Serial.println("how i get here?");
               bright += 100;
               ledPinState = "on";
               if (bright > 1023) {
                 bright = 1023;
               }
-              Serial.println(bright);
+              Serial.println("how i get here again?");
               analogWrite(ledPin, bright);
               // if button "darkner" touch
             } else if (header.indexOf("GET /5/on") >= 0) {
@@ -133,7 +134,6 @@ void loop() {
                 ledPinState = "off";
               }
               analogWrite(ledPin, bright);
-              Serial.println(bright);
             }
 
             // Display the HTML web page

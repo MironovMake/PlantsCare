@@ -64,13 +64,13 @@ void loop() {
   timeClient.update();
   var_clock = timeClient.getHours() + 6; // my router give me time less than my by 6
   // turn on led for plants at 14:00
-  if (var_clock > 14 && flag == 0 &&var_clock < 23) {
+  if (var_clock==12 && flag == 0) {
     analogWrite(ledPin, bright);
     Serial.println("let me go");
     ledPinState = "on";
     flag = 1;
   } // off led at 23:00
-  else if ( var_clock > 23 && flag == 1) {
+  else if (var_clock==23 && flag == 1) {
     analogWrite(ledPin, LOW); 
     ledPinState = "off";
     Serial.println(var_clock);
